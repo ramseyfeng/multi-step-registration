@@ -1,54 +1,129 @@
-# React + TypeScript + Vite
+# Multi-Step Registration Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Node.js version recommended:** >=18.0.0
 
-Currently, two official plugins are available:
+## Introduction
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Multi-Step Registration Form is a modern web application that guides users through a step-by-step registration process. It features form validation, user feedback via toast notifications, and a clean, responsive UI.
 
-## Expanding the ESLint configuration
+### Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** for building the user interface
+- **TypeScript** for static typing
+- **Vite** for fast development and build tooling
+- **MUI (Material UI)** for UI components and theming
+- **React Hook Form** for form state management and validation
+- **MUI X Date Pickers** for date input
+- **Vitest** and **Testing Library** for unit and integration testing
+- **ESLint** and **Prettier** for code quality and formatting
+- **Tailwind CSS** for utility-first styling
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Setup Instructions
+
+1. **Install dependencies**
+
+   Using pnpm:
+
+   ```sh
+   pnpm install
+   ```
+
+   Or using npm:
+
+   ```sh
+   npm install
+   ```
+
+2. **Prepare Husky (for git hooks, optional):**
+   ```sh
+   pnpm run prepare
+   ```
+   Or with npm:
+   ```sh
+   npm run prepare
+   ```
+
+## How to Run the App
+
+Start the development server:
+
+```sh
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Or with npm:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```sh
+npm run dev
 ```
+
+The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+To build for production:
+
+```sh
+pnpm build
+```
+
+Or with npm:
+
+```sh
+npm run build
+```
+
+To preview the production build:
+
+```sh
+pnpm preview
+```
+
+Or with npm:
+
+```sh
+npm run preview
+```
+
+## How to Run the Tests
+
+Run all tests in watch mode:
+
+```sh
+pnpm test
+```
+
+Or with npm:
+
+```sh
+npm test
+```
+
+Run tests once for CI:
+
+```sh
+pnpm test:ci
+```
+
+Or with npm:
+
+```sh
+npm run test:ci
+```
+
+---
+
+- Lint your code with:
+  ```sh
+  pnpm lint
+  ```
+  Or with npm:
+  ```sh
+  npm run lint
+  ```
+- Format your code with:
+  ```sh
+  pnpm format
+  ```
+  Or with npm:
+  ```sh
+  npm run format
+  ```
