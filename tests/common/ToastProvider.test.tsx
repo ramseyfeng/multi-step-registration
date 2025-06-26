@@ -1,7 +1,8 @@
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { ToastProvider } from '@/providers/toast/ToastProvider'
 import { ToastContext } from '@/providers/toast/ToastContext'
 import { useContext } from 'react'
+import { act } from 'react'
 
 function TestComponent() {
   const toast = useContext(ToastContext)
@@ -15,19 +16,19 @@ function TestComponent() {
 }
 
 describe('ToastProvider', () => {
-  it('renders toasts when triggered', () => {
+  it('renders toasts when triggered', async () => {
     render(
       <ToastProvider>
         <TestComponent />
       </ToastProvider>
     )
     // Trigger success toast
-    act(() => {
+    await act(async () => {
       screen.getByText('Show Success').click()
     })
     expect(screen.getByText('Success message!')).toBeInTheDocument()
     // Trigger error toast
-    act(() => {
+    await act(async () => {
       screen.getByText('Show Error').click()
     })
     expect(screen.getByText('Error message!')).toBeInTheDocument()
@@ -39,7 +40,7 @@ describe('ToastProvider', () => {
         <TestComponent />
       </ToastProvider>
     )
-    act(() => {
+    await act(async () => {
       screen.getByText('Show Success').click()
     })
     expect(screen.getByText('Success message!')).toBeInTheDocument()
@@ -58,13 +59,13 @@ describe('ToastProvider', () => {
         <TestComponent />
       </ToastProvider>
     )
-    act(() => {
+    await act(async () => {
       screen.getByText('Show Success').click()
     })
     expect(screen.getByText('Success message!')).toBeInTheDocument()
     // Find and click the close button (assuming it has aria-label 'Close')
     const closeBtn = screen.getByLabelText(/close/i)
-    act(() => {
+    await act(async () => {
       closeBtn.click()
     })
     // Wait for the toast to be removed from the DOM
