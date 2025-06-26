@@ -15,7 +15,13 @@ export default function Step3AccountInfo({ control, errors }: Readonly<Step3Acco
       <Controller
         name="email"
         control={control}
-        rules={{ required: 'Email is required' }}
+        rules={{
+          required: 'Email is required',
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: 'Invalid email address',
+          },
+        }}
         render={({ field }) => (
           <TextField
             {...field}
@@ -31,7 +37,13 @@ export default function Step3AccountInfo({ control, errors }: Readonly<Step3Acco
       <Controller
         name="password"
         control={control}
-        rules={{ required: 'Password is required' }}
+        rules={{
+          required: 'Password is required',
+          minLength: {
+            value: 8,
+            message: 'Password must be at least 8 characters',
+          },
+        }}
         render={({ field }) => (
           <TextField
             {...field}

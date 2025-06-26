@@ -9,6 +9,8 @@ import RegistrationStepper from './RegistrationStepper'
 import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
+import { mockRegistrationService } from './registrationService'
+import { useToast } from '../../providers/ToastProvider'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues
@@ -24,6 +26,8 @@ function RegistrationForm() {
     mode: 'onTouched',
   })
   const [activeStep, setActiveStep] = useState(0)
+  const [submitting, setSubmitting] = useState(false)
+  const toast = useToast()
 
   // File change handler for react-hook-form
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,9 +48,21 @@ function RegistrationForm() {
   }
   const handleBack = () => setActiveStep((prev) => prev - 1)
 
-  const onSubmit = (data: RegistrationFormValues) => {
-    // handle final submit
-    console.log('Form submitted:', data)
+  const onSubmit = async (data: RegistrationFormValues) => {
+    setSubmitting(true)
+    try {
+      const result = await mockRegistrationService(data)
+      if (result.success) {
+        toast.toastSuccess('Registration successful!')
+      } else {
+        toast.toastError('Registration failed. Please try again.')
+      }
+    } catch (e) {
+      console.error('Registration error:', e)
+      toast.toastError('An error occurred. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -132,8 +148,9 @@ function RegistrationForm() {
             color="success"
             type="submit"
             onClick={handleSubmit(onSubmit)}
+            disabled={submitting}
           >
-            Submit
+            {submitting ? 'Submitting...' : 'Submit'}
           </Button>
         )}
       </Box>
