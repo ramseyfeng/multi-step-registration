@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "multi-step-registration",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -67,5 +67,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "author": "Ramsey Feng"
 }

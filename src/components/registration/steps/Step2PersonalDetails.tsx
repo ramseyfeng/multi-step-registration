@@ -78,7 +78,7 @@ export default function Step2PersonalDetails({
           }
         />
         <Button variant="outlined" component="label">
-          Upload Profile Picture
+          Upload Avatar picture
           <input type="file" accept="image/*" hidden onChange={onFileChange} />
         </Button>
       </Box>

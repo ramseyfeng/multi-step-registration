@@ -26,7 +26,7 @@ export default function RegistrationConfirmation({
               return (
                 <li key={k} className="flex items-center mb-2 justify-center flex-wrap">
                   <div className="w-40 min-w-[120px] text-right pr-2 font-semibold">
-                    Profile Picture:
+                    Avatar picture:
                   </div>
                   <div className="flex-1 min-w-[120px] flex items-center text-left justify-center sm:justify-start">
                     <Avatar src={v as string} alt="Profile" sx={{ width: 32, height: 32 }} />
