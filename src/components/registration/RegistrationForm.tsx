@@ -4,13 +4,14 @@ import { useForm } from 'react-hook-form'
 import Step1BasicInfo from './steps/Step1BasicInfo.tsx'
 import Step2PersonalDetails from './steps/Step2PersonalDetails.tsx'
 import Step3AccountInfo from './steps/Step3AccountInfo.tsx'
-import RegistrationConfirmation from './steps/RegistrationConfirmation.tsx'
+import RegistrationComplete from './RegistrationComplete'
 import RegistrationStepper from './RegistrationStepper'
 import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
 import { useToast } from '@/providers/toast'
+import RegistrationConfirmation from './steps/RegistrationConfirmation'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues
@@ -27,6 +28,7 @@ function RegistrationForm() {
   })
   const [activeStep, setActiveStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [registrationSuccess, setRegistrationSuccess] = useState(false)
   const toast = useToast()
 
   // File change handler for react-hook-form
@@ -54,6 +56,7 @@ function RegistrationForm() {
       const result = await mockRegistrationService(data)
       if (result.success) {
         toast.toastSuccess('Registration successful!')
+        setRegistrationSuccess(true)
       } else {
         toast.toastError('Registration failed. Please try again.')
       }
@@ -63,6 +66,10 @@ function RegistrationForm() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  if (registrationSuccess) {
+    return <RegistrationComplete />
   }
 
   return (
@@ -149,8 +156,9 @@ function RegistrationForm() {
             type="submit"
             onClick={handleSubmit(onSubmit)}
             disabled={submitting}
+            loading={submitting}
           >
-            {submitting ? 'Submitting...' : 'Submit'}
+            Submit
           </Button>
         )}
       </Box>

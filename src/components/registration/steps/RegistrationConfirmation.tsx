@@ -1,5 +1,6 @@
-import { Box, Typography, Avatar } from '@mui/material'
+import { Typography, Avatar } from '@mui/material'
 import type { RegistrationFormValues } from '../registrationTypes.ts'
+import DateFormatter from '../../common/DateFormatter'
 
 interface RegistrationConfirmationProps {
   values: RegistrationFormValues
@@ -9,26 +10,52 @@ export default function RegistrationConfirmation({
   values,
 }: Readonly<RegistrationConfirmationProps>) {
   return (
-    <Box>
-      <Typography variant="h6" sx={{ mb: 2 }}>
+    <div className="flex flex-col items-center w-full">
+      <Typography variant="h6" className="mb-2 w-full text-center">
         Confirm your details:
       </Typography>
-      <Box component="ul" sx={{ pl: 2, mb: 2 }}>
-        {Object.entries(values).map(([k, v]) =>
-          k === 'profilePicUrl' && v ? (
-            <li key={k} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <strong>Profile Picture:</strong>
-              <Avatar src={v as string} alt="Profile" sx={{ width: 32, height: 32 }} />
-            </li>
-          ) : (
-            k !== 'profilePic' && (
-              <li key={k}>
-                <strong>{k}:</strong> {v instanceof Date ? v.toLocaleDateString() : v}
+      <div className="w-full max-w-xl mx-auto px-2">
+        <ul className="mb-2 p-0">
+          {Object.entries(values).map(([k, v]) => {
+            if (k === 'profilePicUrl' && v) {
+              return (
+                <li key={k} className="flex items-center mb-2 justify-center flex-wrap">
+                  <div className="w-40 min-w-[120px] text-right pr-2 font-semibold">
+                    Profile Picture:
+                  </div>
+                  <div className="flex-1 min-w-[120px] flex items-center text-left justify-center sm:justify-start">
+                    <Avatar src={v as string} alt="Profile" sx={{ width: 32, height: 32 }} />
+                  </div>
+                </li>
+              )
+            }
+            if (k === 'profilePic') return null
+            if (k === 'password') return null
+            if (k === 'dob' && typeof v === 'number') {
+              return (
+                <li key={k} className="flex items-center mb-2 justify-center flex-wrap">
+                  <div className="w-40 min-w-[120px] text-right pr-2 font-semibold">
+                    Date of Birth:
+                  </div>
+                  <div className="flex-1 min-w-[120px] text-left justify-center sm:justify-start">
+                    <DateFormatter value={v} />
+                  </div>
+                </li>
+              )
+            }
+            return (
+              <li key={k} className="flex items-center mb-2 justify-center flex-wrap">
+                <div className="w-40 min-w-[120px] text-right pr-2 font-semibold capitalize">
+                  {k}:
+                </div>
+                <div className="flex-1 min-w-[120px] text-left justify-center sm:justify-start break-words overflow-auto max-w-xs">
+                  {v as string}
+                </div>
               </li>
             )
-          )
-        )}
-      </Box>
-    </Box>
+          })}
+        </ul>
+      </div>
+    </div>
   )
 }
