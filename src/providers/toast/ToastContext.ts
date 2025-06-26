@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 
 export interface ToastContextType {
   toastSuccess: (message: string) => void
@@ -6,9 +6,3 @@ export interface ToastContextType {
 }
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined)
-
-export const useToast = () => {
-  const ctx = useContext(ToastContext)
-  if (!ctx) throw new Error('useToast must be used within a ToastProvider')
-  return ctx
-}

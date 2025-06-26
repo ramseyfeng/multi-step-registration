@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState } from 'react'
+import { type ChangeEvent, useState, useContext } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Step1BasicInfo from './steps/Step1BasicInfo.tsx'
@@ -10,7 +10,7 @@ import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
-import { useToast } from '@/providers/toast'
+import { ToastContext } from '@/providers/toast'
 import RegistrationConfirmation from './steps/RegistrationConfirmation'
 
 function RegistrationForm() {
@@ -29,7 +29,7 @@ function RegistrationForm() {
   const [activeStep, setActiveStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [registrationSuccess, setRegistrationSuccess] = useState(false)
-  const toast = useToast()
+  const toast = useContext(ToastContext)
 
   // File change handler for react-hook-form
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,14 +55,14 @@ function RegistrationForm() {
     try {
       const result = await mockRegistrationService(data)
       if (result.success) {
-        toast.toastSuccess('Registration successful!')
+        toast?.toastSuccess('Registration successful!')
         setRegistrationSuccess(true)
       } else {
-        toast.toastError('Registration failed. Please try again.')
+        toast?.toastError('Registration failed. Please try again.')
       }
     } catch (e) {
       console.error('Registration error:', e)
-      toast.toastError('An error occurred. Please try again.')
+      toast?.toastError('An error occurred. Please try again.')
     } finally {
       setSubmitting(false)
     }
