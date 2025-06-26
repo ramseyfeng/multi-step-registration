@@ -4,14 +4,14 @@ import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step1BasicInfoProps {
   control: Control<RegistrationFormValues>
-  errors: FieldErrors<RegistrationFormValues['basicInfo']>
+  errors: FieldErrors<RegistrationFormValues>
 }
 
 export default function Step1BasicInfo({ control, errors }: Step1BasicInfoProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Controller
-        name="basicInfo.firstName"
+        name="firstName"
         control={control}
         rules={{ required: 'First name is required' }}
         render={({ field }) => (
@@ -26,7 +26,7 @@ export default function Step1BasicInfo({ control, errors }: Step1BasicInfoProps)
         )}
       />
       <Controller
-        name="basicInfo.lastName"
+        name="lastName"
         control={control}
         rules={{ required: 'Last name is required' }}
         render={({ field }) => (
@@ -41,7 +41,7 @@ export default function Step1BasicInfo({ control, errors }: Step1BasicInfoProps)
         )}
       />
       <Controller
-        name="basicInfo.dob"
+        name="dob"
         control={control}
         rules={{ required: 'Date of birth is required' }}
         render={({ field }) => (

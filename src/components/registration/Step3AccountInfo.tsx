@@ -4,7 +4,7 @@ import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step3AccountInfoProps {
   control: Control<RegistrationFormValues>
-  errors: FieldErrors<RegistrationFormValues['accountInfo']>
+  errors: FieldErrors<RegistrationFormValues>
   onBack: () => void
   onNext: () => void
 }
@@ -13,7 +13,7 @@ export default function Step3AccountInfo({ control, errors }: Readonly<Step3Acco
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Controller
-        name="accountInfo.email"
+        name="email"
         control={control}
         rules={{ required: 'Email is required' }}
         render={({ field }) => (
@@ -29,7 +29,7 @@ export default function Step3AccountInfo({ control, errors }: Readonly<Step3Acco
         )}
       />
       <Controller
-        name="accountInfo.password"
+        name="password"
         control={control}
         rules={{ required: 'Password is required' }}
         render={({ field }) => (

@@ -14,7 +14,7 @@ import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step2PersonalDetailsProps {
   control: Control<RegistrationFormValues>
-  errors: FieldErrors<RegistrationFormValues['detail']>
+  errors: FieldErrors<RegistrationFormValues>
   countries: string[]
   genders: string[]
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -32,7 +32,7 @@ export default function Step2PersonalDetails({
       <FormControl fullWidth required error={!!errors?.country}>
         <InputLabel>Country</InputLabel>
         <Controller
-          name="detail.country"
+          name="country"
           control={control}
           rules={{ required: 'Country is required' }}
           render={({ field }) => (
@@ -50,7 +50,7 @@ export default function Step2PersonalDetails({
       <FormControl fullWidth required error={!!errors?.gender}>
         <InputLabel>Gender</InputLabel>
         <Controller
-          name="detail.gender"
+          name="gender"
           control={control}
           rules={{ required: 'Gender is required' }}
           render={({ field }) => (
@@ -65,19 +65,23 @@ export default function Step2PersonalDetails({
         />
         {errors?.gender && <FormHelperText>{errors.gender.message as string}</FormHelperText>}
       </FormControl>
-      <Button variant="outlined" component="label" sx={{ alignSelf: 'flex-start' }}>
-        Upload Profile Picture
-        <input type="file" name="profilePic" accept="image/*" hidden onChange={onFileChange} />
-      </Button>
-      <Controller
-        name="detail.profilePicUrl"
-        control={control}
-        render={({ field }) =>
-          (field.value ? (
-            <Avatar src={field.value} alt="Profile" sx={{ width: 56, height: 56, mt: 1 }} />
-          ) : null) as React.ReactElement
-        }
-      />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Controller
+          name="profilePicUrl"
+          control={control}
+          render={({ field }) =>
+            field.value ? (
+              <Avatar src={field.value} alt="Profile" sx={{ width: 56, height: 56 }} />
+            ) : (
+              <></>
+            )
+          }
+        />
+        <Button variant="outlined" component="label">
+          Upload Profile Picture
+          <input type="file" accept="image/*" hidden onChange={onFileChange} />
+        </Button>
+      </Box>
     </Box>
   )
 }

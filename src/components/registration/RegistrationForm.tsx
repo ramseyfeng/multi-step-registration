@@ -13,18 +13,7 @@ import {
 } from './registrationConstants'
 
 function RegistrationForm() {
-  const totalSteps = Object.keys(REGISTRATION_STEPS).length
-  type FieldName =
-    | keyof RegistrationFormValues
-    | 'basicInfo.firstName'
-    | 'basicInfo.lastName'
-    | 'basicInfo.dob'
-    | 'detail.country'
-    | 'detail.gender'
-    | 'detail.profilePic'
-    | 'detail.profilePicUrl'
-    | 'accountInfo.email'
-    | 'accountInfo.password'
+  type FieldName = keyof RegistrationFormValues
   const {
     control,
     handleSubmit,
@@ -34,21 +23,15 @@ function RegistrationForm() {
     formState: { errors },
   } = useForm<RegistrationFormValues>({
     defaultValues: {
-      basicInfo: {
-        firstName: '',
-        lastName: '',
-        dob: null,
-      },
-      detail: {
-        country: '',
-        gender: '',
-        profilePic: null,
-        profilePicUrl: '',
-      },
-      accountInfo: {
-        email: '',
-        password: '',
-      },
+      firstName: '',
+      lastName: '',
+      dob: null,
+      country: '',
+      gender: '',
+      profilePic: null,
+      profilePicUrl: '',
+      email: '',
+      password: '',
     },
     mode: 'onTouched',
   })
@@ -57,20 +40,17 @@ function RegistrationForm() {
   // File change handler for react-hook-form
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
-      setValue('detail.profilePic', e.target.files[0])
-      setValue('detail.profilePicUrl', URL.createObjectURL(e.target.files[0]))
+      setValue('profilePic', e.target.files[0])
+      setValue('profilePicUrl', URL.createObjectURL(e.target.files[0]))
     }
   }
 
   // Step navigation with validation
   const handleNext = async () => {
     let stepFields: FieldName[] = []
-    if (activeStep === REGISTRATION_STEPS.BasicInfo)
-      stepFields = ['basicInfo.firstName', 'basicInfo.lastName', 'basicInfo.dob']
-    if (activeStep === REGISTRATION_STEPS.PersonalDetails)
-      stepFields = ['detail.country', 'detail.gender']
-    if (activeStep === REGISTRATION_STEPS.AccountSetup)
-      stepFields = ['accountInfo.email', 'accountInfo.password']
+    if (activeStep === REGISTRATION_STEPS.BasicInfo) stepFields = ['firstName', 'lastName', 'dob']
+    if (activeStep === REGISTRATION_STEPS.PersonalDetails) stepFields = ['country', 'gender']
+    if (activeStep === REGISTRATION_STEPS.AccountSetup) stepFields = ['email', 'password']
     const valid = await trigger(stepFields)
     if (valid) setActiveStep((prev) => prev + 1)
   }
@@ -110,12 +90,12 @@ function RegistrationForm() {
       >
         <form onSubmit={handleSubmit(onSubmit)} style={{ height: '100%' }}>
           {activeStep === REGISTRATION_STEPS.BasicInfo && (
-            <Step1BasicInfo control={control} errors={errors.basicInfo ?? {}} />
+            <Step1BasicInfo control={control} errors={errors} />
           )}
           {activeStep === REGISTRATION_STEPS.PersonalDetails && (
             <Step2PersonalDetails
               control={control}
-              errors={errors.detail ?? {}}
+              errors={errors}
               countries={COUNTRIES}
               genders={GENDERS}
               onFileChange={handleFileChange}
@@ -124,7 +104,7 @@ function RegistrationForm() {
           {activeStep === REGISTRATION_STEPS.AccountSetup && (
             <Step3AccountInfo
               control={control}
-              errors={errors.accountInfo ?? {}}
+              errors={errors}
               onBack={() => setActiveStep((prev) => prev - 1)}
               onNext={handleSubmit(() => setActiveStep((prev) => prev + 1))}
             />
@@ -135,13 +115,7 @@ function RegistrationForm() {
                 Confirm your details:
               </Typography>
               <Box component="ul" sx={{ pl: 2, mb: 2 }}>
-                {Object.entries(getValues().basicInfo).map(([k, v]) => (
-                  <li key={k}>
-                    <strong>{k}:</strong>{' '}
-                    {v instanceof Date ? v.toLocaleDateString() : (v as string)}
-                  </li>
-                ))}
-                {Object.entries(getValues().detail).map(([k, v]) =>
+                {Object.entries(getValues()).map(([k, v]) =>
                   k === 'profilePicUrl' && v ? (
                     <li key={k} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <strong>Profile Picture:</strong>
@@ -150,16 +124,11 @@ function RegistrationForm() {
                   ) : (
                     k !== 'profilePic' && (
                       <li key={k}>
-                        <strong>{k}:</strong> {v as string}
+                        <strong>{k}:</strong> {v instanceof Date ? v.toLocaleDateString() : v}
                       </li>
                     )
                   )
                 )}
-                {Object.entries(getValues().accountInfo).map(([k, v]) => (
-                  <li key={k}>
-                    <strong>{k}:</strong> {v as string}
-                  </li>
-                ))}
               </Box>
             </Box>
           )}
@@ -175,13 +144,13 @@ function RegistrationForm() {
           justifyContent: 'space-between',
         }}
       >
-        {activeStep > 0 && activeStep < totalSteps && (
+        {activeStep > 0 && activeStep < REGISTRATION_STEPS.Confirmation && (
           <Button variant="outlined" onClick={handleBack} sx={{ minWidth: 100 }}>
             Back
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
-        {activeStep < totalSteps && (
+        {activeStep < REGISTRATION_STEPS.Confirmation && (
           <Button variant="contained" onClick={handleNext} sx={{ minWidth: 100 }}>
             Next
           </Button>
