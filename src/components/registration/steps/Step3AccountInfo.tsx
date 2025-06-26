@@ -1,6 +1,6 @@
 import { Box, TextField } from '@mui/material'
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
-import type { RegistrationFormValues } from './registrationTypes'
+import type { RegistrationFormValues } from '../registrationTypes.ts'
 
 interface Step3AccountInfoProps {
   control: Control<RegistrationFormValues>

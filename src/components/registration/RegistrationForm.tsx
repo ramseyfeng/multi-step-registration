@@ -1,16 +1,16 @@
 import { type ChangeEvent, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import Step1BasicInfo from './Step1BasicInfo.tsx'
-import Step2PersonalDetails from './Step2PersonalDetails.tsx'
-import Step3AccountInfo from './Step3AccountInfo.tsx'
-import RegistrationConfirmation from './RegistrationConfirmation'
+import Step1BasicInfo from './steps/Step1BasicInfo.tsx'
+import Step2PersonalDetails from './steps/Step2PersonalDetails.tsx'
+import Step3AccountInfo from './steps/Step3AccountInfo.tsx'
+import RegistrationConfirmation from './steps/RegistrationConfirmation.tsx'
 import RegistrationStepper from './RegistrationStepper'
 import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
-import { useToast } from '../../providers/toast'
+import { useToast } from '@/providers/toast'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues

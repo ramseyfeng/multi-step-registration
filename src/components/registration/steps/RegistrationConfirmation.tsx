@@ -1,11 +1,13 @@
 import { Box, Typography, Avatar } from '@mui/material'
-import type { RegistrationFormValues } from './registrationTypes'
+import type { RegistrationFormValues } from '../registrationTypes.ts'
 
 interface RegistrationConfirmationProps {
   values: RegistrationFormValues
 }
 
-export default function RegistrationConfirmation({ values }: RegistrationConfirmationProps) {
+export default function RegistrationConfirmation({
+  values,
+}: Readonly<RegistrationConfirmationProps>) {
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 2 }}>

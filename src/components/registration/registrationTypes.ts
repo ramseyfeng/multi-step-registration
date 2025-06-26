@@ -1,9 +1,7 @@
-// registrationTypes.ts
-
 export interface RegistrationFormValues {
   firstName: string
   lastName: string
-  dob: Date | null
+  dob: number | null
   country: string
   gender: string
   profilePic: File | null

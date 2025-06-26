@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
 import React from 'react'
-import type { RegistrationFormValues } from './registrationTypes'
+import type { RegistrationFormValues } from '../registrationTypes.ts'
 
 interface Step2PersonalDetailsProps {
   control: Control<RegistrationFormValues>

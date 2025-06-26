@@ -1,6 +1,7 @@
 import { Box, TextField } from '@mui/material'
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
-import type { RegistrationFormValues } from './registrationTypes'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import type { RegistrationFormValues } from '../registrationTypes.ts'
 
 interface Step1BasicInfoProps {
   control: Control<RegistrationFormValues>
@@ -45,25 +46,19 @@ export default function Step1BasicInfo({ control, errors }: Readonly<Step1BasicI
         control={control}
         rules={{ required: 'Date of birth is required' }}
         render={({ field }) => (
-          <TextField
+          <DatePicker
             {...field}
             label="Date of Birth"
-            type="date"
-            fullWidth
-            required
-            error={!!errors?.dob}
-            helperText={errors?.dob?.message as string}
             slotProps={{
-              inputLabel: { shrink: true },
+              textField: {
+                fullWidth: true,
+                required: true,
+                error: !!errors?.dob,
+                helperText: errors?.dob?.message as string,
+              },
             }}
-            value={
-              field.value
-                ? field.value instanceof Date
-                  ? field.value.toISOString().substring(0, 10)
-                  : field.value
-                : ''
-            }
-            onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
+            value={field.value ? new Date(field.value) : null}
+            onChange={(date) => field.onChange(date ? date.getTime() : null)}
           />
         )}
       />

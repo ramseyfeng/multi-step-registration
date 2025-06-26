@@ -5,7 +5,7 @@ interface RegistrationStepperProps {
   activeStep: number
 }
 
-export default function RegistrationStepper({ activeStep }: RegistrationStepperProps) {
+export default function RegistrationStepper({ activeStep }: Readonly<RegistrationStepperProps>) {
   return (
     <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
       {Object.values(REGISTRATION_STEPS).map((step) => (

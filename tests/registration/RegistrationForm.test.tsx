@@ -1,6 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import { ToastProvider } from '../../src/providers/toast'
-import { RegistrationForm } from '../../src/components/registration'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { ToastProvider } from '@/providers/toast'
+import { RegistrationForm } from '@/components/registration'
 import {
   fillStep1BasicInfo,
   fillStep2PersonalDetails,
@@ -11,7 +14,11 @@ import { type ReactElement } from 'react'
 
 // Helper to render with ToastProvider
 function renderWithProvider(ui: ReactElement) {
-  return render(<ToastProvider>{ui}</ToastProvider>)
+  return render(
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ToastProvider>{ui}</ToastProvider>
+    </LocalizationProvider>
+  )
 }
 
 describe('RegistrationForm', () => {
@@ -21,14 +28,14 @@ describe('RegistrationForm', () => {
     await fillStep2PersonalDetails({ country: 'United States', gender: 'Male' })
     await fillStep3AccountSetup({ email: 'john@example.com', password: 'password123' })
     await goToConfirmationStep()
-    fireEvent.click(screen.getByRole('button', { name: /submit/i }))
+    await userEvent.click(screen.getByRole('button', { name: /submit/i }))
 
     // Toast should appear
     await screen.findByText(/Registration successful/i, {}, { timeout: 3000 })
   })
   it('shows validation errors if required fields are missing', async () => {
     renderWithProvider(<RegistrationForm />)
-    fireEvent.click(screen.getByRole('button', { name: /next/i }))
+    await userEvent.click(screen.getByRole('button', { name: /next/i }))
     expect(await screen.findAllByText(/required/i)).not.toHaveLength(0)
   })
   it('shows error for invalid email and short password', async () => {
