@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { ToastProvider } from '../../src/providers/ToastProvider.tsx'
+import { ToastProvider } from '../../src/providers/toast'
 import { RegistrationForm } from '../../src/components/registration'
 import {
   fillStep1BasicInfo,

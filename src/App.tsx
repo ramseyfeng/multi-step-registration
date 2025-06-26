@@ -1,6 +1,6 @@
 import { RegistrationForm } from './components/registration'
 import './App.css'
-import { ToastProvider } from './providers/ToastProvider.tsx'
+import { ToastProvider } from './providers/toast'
 
 function App() {
   return (

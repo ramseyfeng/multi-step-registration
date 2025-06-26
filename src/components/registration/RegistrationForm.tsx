@@ -10,7 +10,7 @@ import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
-import { useToast } from '../../providers/ToastProvider'
+import { useToast } from '../../providers/toast'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues

@@ -1,19 +1,7 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { useState, useCallback, type ReactNode, useMemo } from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
-
-interface ToastContextType {
-  toastSuccess: (message: string) => void
-  toastError: (message: string) => void
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined)
-
-export const useToast = () => {
-  const ctx = useContext(ToastContext)
-  if (!ctx) throw new Error('useToast must be used within a ToastProvider')
-  return ctx
-}
+import { ToastContext } from './ToastContext'
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false)
@@ -37,8 +25,10 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setOpen(false)
   }
 
+  const contextValue = useMemo(() => ({ toastSuccess, toastError }), [toastSuccess, toastError])
+
   return (
-    <ToastContext.Provider value={{ toastSuccess, toastError }}>
+    <ToastContext.Provider value={contextValue}>
       {children}
       <Snackbar
         open={open}
@@ -46,13 +36,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <MuiAlert
-          onClose={handleClose}
-          severity={severity}
-          sx={{ width: '100%' }}
-          elevation={6}
-          variant="filled"
-        >
+        <MuiAlert onClose={handleClose} severity={severity} elevation={6} variant="filled">
           {message}
         </MuiAlert>
       </Snackbar>
