@@ -1,71 +1,72 @@
-import { Box, Button, TextField } from '@mui/material'
-import { type ChangeEvent } from 'react'
+import { Box, TextField } from '@mui/material'
+import { Controller, type Control, type FieldErrors } from 'react-hook-form'
+import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step1BasicInfoProps {
-  values: {
-    firstName: string
-    lastName: string
-    dob: Date | null
-  }
-  onInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
-  onDateChange: (date: Date | null) => void
-  onNext: () => void
-  errors: {
-    firstName?: string
-    lastName?: string
-    dob?: string
-  }
+  control: Control<RegistrationFormValues>
+  errors: FieldErrors<RegistrationFormValues['basicInfo']>
 }
 
-export default function Step1BasicInfo({
-  values,
-  onInputChange,
-  onDateChange,
-  onNext,
-  errors,
-}: Readonly<Step1BasicInfoProps>) {
+export default function Step1BasicInfo({ control, errors }: Step1BasicInfoProps) {
   return (
-    <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <TextField
-        label="First Name"
-        name="firstName"
-        value={values.firstName}
-        onChange={onInputChange}
-        fullWidth
-        required
-        error={!!errors.firstName}
-        helperText={errors.firstName}
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Controller
+        name="basicInfo.firstName"
+        control={control}
+        rules={{ required: 'First name is required' }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="First Name"
+            fullWidth
+            required
+            error={!!errors?.firstName}
+            helperText={errors?.firstName?.message as string}
+          />
+        )}
       />
-      <TextField
-        label="Last Name"
-        name="lastName"
-        value={values.lastName}
-        onChange={onInputChange}
-        fullWidth
-        required
-        error={!!errors.lastName}
-        helperText={errors.lastName}
+      <Controller
+        name="basicInfo.lastName"
+        control={control}
+        rules={{ required: 'Last name is required' }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Last Name"
+            fullWidth
+            required
+            error={!!errors?.lastName}
+            helperText={errors?.lastName?.message as string}
+          />
+        )}
       />
-      {/* DatePicker should be wrapped in LocalizationProvider in parent */}
-      <TextField
-        label="Date of Birth"
-        name="dob"
-        type="date"
-        value={values.dob ? values.dob.toISOString().substring(0, 10) : ''}
-        onChange={(e) => onDateChange(e.target.value ? new Date(e.target.value) : null)}
-        fullWidth
-        required
-        error={!!errors.dob}
-        helperText={errors.dob}
-        slotProps={{
-          inputLabel: { shrink: true },
-        }}
+      <Controller
+        name="basicInfo.dob"
+        control={control}
+        rules={{ required: 'Date of birth is required' }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Date of Birth"
+            type="date"
+            fullWidth
+            required
+            error={!!errors?.dob}
+            helperText={errors?.dob?.message as string}
+            slotProps={{
+              inputLabel: { shrink: true },
+            }}
+            value={
+              field.value
+                ? field.value instanceof Date
+                  ? field.value.toISOString().substring(0, 10)
+                  : field.value
+                : ''
+            }
+            onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
+          />
+        )}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-        <Button variant="contained" onClick={onNext}>
-          Next
-        </Button>
-      </Box>
     </Box>
   )
 }

@@ -1,58 +1,49 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, TextField } from '@mui/material'
+import { Controller, type Control, type FieldErrors } from 'react-hook-form'
+import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step3AccountInfoProps {
-  values: {
-    email: string
-    password: string
-  }
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  control: Control<RegistrationFormValues>
+  errors: FieldErrors<RegistrationFormValues['accountInfo']>
   onBack: () => void
   onNext: () => void
-  errors: {
-    email?: string
-    password?: string
-  }
 }
 
-export default function Step3AccountInfo({
-  values,
-  onInputChange,
-  onBack,
-  onNext,
-  errors,
-}: Step3AccountInfoProps) {
+export default function Step3AccountInfo({ control, errors }: Readonly<Step3AccountInfoProps>) {
   return (
-    <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <TextField
-        label="Email Address"
-        name="email"
-        type="email"
-        value={values.email}
-        onChange={onInputChange}
-        fullWidth
-        required
-        error={!!errors.email}
-        helperText={errors.email}
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Controller
+        name="accountInfo.email"
+        control={control}
+        rules={{ required: 'Email is required' }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Email Address"
+            type="email"
+            fullWidth
+            required
+            error={!!errors?.email}
+            helperText={errors?.email?.message as string}
+          />
+        )}
       />
-      <TextField
-        label="Password"
-        name="password"
-        type="password"
-        value={values.password}
-        onChange={onInputChange}
-        fullWidth
-        required
-        error={!!errors.password}
-        helperText={errors.password}
+      <Controller
+        name="accountInfo.password"
+        control={control}
+        rules={{ required: 'Password is required' }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Password"
+            type="password"
+            fullWidth
+            required
+            error={!!errors?.password}
+            helperText={errors?.password?.message as string}
+          />
+        )}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button variant="outlined" onClick={onBack}>
-          Back
-        </Button>
-        <Button variant="contained" onClick={onNext}>
-          Next
-        </Button>
-      </Box>
     </Box>
   )
 }

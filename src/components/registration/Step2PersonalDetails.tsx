@@ -7,77 +7,77 @@ import {
   Select,
   Avatar,
   FormHelperText,
-  type SelectChangeEvent,
 } from '@mui/material'
+import { Controller, type Control, type FieldErrors } from 'react-hook-form'
+import React from 'react'
+import type { RegistrationFormValues } from './registrationTypes'
 
 interface Step2PersonalDetailsProps {
-  values: {
-    country: string
-    gender: string
-    profilePicUrl: string
-  }
+  control: Control<RegistrationFormValues>
+  errors: FieldErrors<RegistrationFormValues['detail']>
   countries: string[]
   genders: string[]
-  onSelectChange: (event: SelectChangeEvent<string>) => void
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onBack: () => void
-  onNext: () => void
-  errors: {
-    country?: string
-    gender?: string
-    profilePicUrl?: string
-  }
 }
 
 export default function Step2PersonalDetails({
-  values,
+  control,
+  errors,
   countries,
   genders,
-  onSelectChange,
   onFileChange,
-  onBack,
-  onNext,
-  errors,
-}: Step2PersonalDetailsProps) {
+}: Readonly<Step2PersonalDetailsProps>) {
   return (
-    <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <FormControl fullWidth required error={!!errors.country}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <FormControl fullWidth required error={!!errors?.country}>
         <InputLabel>Country</InputLabel>
-        <Select label="Country" name="country" value={values.country} onChange={onSelectChange}>
-          {countries.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </Select>
-        {errors.country && <FormHelperText>{errors.country}</FormHelperText>}
+        <Controller
+          name="detail.country"
+          control={control}
+          rules={{ required: 'Country is required' }}
+          render={({ field }) => (
+            <Select {...field} label="Country">
+              {countries.map((c) => (
+                <MenuItem key={c} value={c}>
+                  {c}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
+        {errors?.country && <FormHelperText>{errors.country.message as string}</FormHelperText>}
       </FormControl>
-      <FormControl fullWidth required error={!!errors.gender}>
+      <FormControl fullWidth required error={!!errors?.gender}>
         <InputLabel>Gender</InputLabel>
-        <Select label="Gender" name="gender" value={values.gender} onChange={onSelectChange}>
-          {genders.map((g) => (
-            <MenuItem key={g} value={g}>
-              {g}
-            </MenuItem>
-          ))}
-        </Select>
-        {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+        <Controller
+          name="detail.gender"
+          control={control}
+          rules={{ required: 'Gender is required' }}
+          render={({ field }) => (
+            <Select {...field} label="Gender">
+              {genders.map((g) => (
+                <MenuItem key={g} value={g}>
+                  {g}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
+        {errors?.gender && <FormHelperText>{errors.gender.message as string}</FormHelperText>}
       </FormControl>
       <Button variant="outlined" component="label" sx={{ alignSelf: 'flex-start' }}>
         Upload Profile Picture
         <input type="file" name="profilePic" accept="image/*" hidden onChange={onFileChange} />
       </Button>
-      {values.profilePicUrl && (
-        <Avatar src={values.profilePicUrl} alt="Profile" sx={{ width: 56, height: 56, mt: 1 }} />
-      )}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button variant="outlined" onClick={onBack}>
-          Back
-        </Button>
-        <Button variant="contained" onClick={onNext}>
-          Next
-        </Button>
-      </Box>
+      <Controller
+        name="detail.profilePicUrl"
+        control={control}
+        render={({ field }) =>
+          (field.value ? (
+            <Avatar src={field.value} alt="Profile" sx={{ width: 56, height: 56, mt: 1 }} />
+          ) : null) as React.ReactElement
+        }
+      />
     </Box>
   )
 }
