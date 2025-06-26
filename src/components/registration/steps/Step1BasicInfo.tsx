@@ -49,6 +49,7 @@ export default function Step1BasicInfo({ control, errors }: Readonly<Step1BasicI
           <DatePicker
             {...field}
             label="Date of Birth"
+            disableFuture={true}
             slotProps={{
               textField: {
                 fullWidth: true,

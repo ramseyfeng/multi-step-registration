@@ -26,10 +26,10 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
       return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
           <Typography variant="h4" color="error" gutterBottom>
-            出现了一个错误
+            An error occurred
           </Typography>
           <Typography variant="body1" color="textSecondary">
-            {this.state.error?.message || '未知错误'}
+            {this.state.error?.message ?? 'An unexpected error occurred.'}
           </Typography>
         </div>
       )

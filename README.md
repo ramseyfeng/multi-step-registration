@@ -28,19 +28,9 @@ Multi-Step Registration Form is a modern web application that guides users throu
    pnpm install
    ```
 
-   Or using npm:
-
-   ```sh
-   npm install
-   ```
-
 2. **Prepare Husky (for git hooks, optional):**
    ```sh
    pnpm run prepare
-   ```
-   Or with npm:
-   ```sh
-   npm run prepare
    ```
 
 ## How to Run the App
@@ -51,12 +41,6 @@ Start the development server:
 pnpm dev
 ```
 
-Or with npm:
-
-```sh
-npm run dev
-```
-
 The app will be available at [http://localhost:5173](http://localhost:5173) by default.
 
 To build for production:
@@ -65,22 +49,10 @@ To build for production:
 pnpm build
 ```
 
-Or with npm:
-
-```sh
-npm run build
-```
-
 To preview the production build:
 
 ```sh
 pnpm preview
-```
-
-Or with npm:
-
-```sh
-npm run preview
 ```
 
 ## How to Run the Tests
@@ -91,22 +63,10 @@ Run all tests in watch mode:
 pnpm test
 ```
 
-Or with npm:
-
-```sh
-npm test
-```
-
 Run tests once for CI:
 
 ```sh
 pnpm test:ci
-```
-
-Or with npm:
-
-```sh
-npm run test:ci
 ```
 
 ---
@@ -115,15 +75,7 @@ npm run test:ci
   ```sh
   pnpm lint
   ```
-  Or with npm:
-  ```sh
-  npm run lint
-  ```
 - Format your code with:
   ```sh
   pnpm format
-  ```
-  Or with npm:
-  ```sh
-  npm run format
   ```

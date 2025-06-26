@@ -1,9 +1,8 @@
-import type { RegistrationFormValues } from './registrationTypes'
+// import type { RegistrationFormValues } from './registrationTypes'
 
-export const mockRegistrationService = async (
-  data: RegistrationFormValues
-): Promise<{ success: boolean }> => {
-  console.log('Submitting registration data:', data)
+export const mockRegistrationService = async () // data: RegistrationFormValues
+: Promise<{ success: boolean }> => {
+  // Avoid logging the password
   return new Promise((resolve) => {
     setTimeout(() => {
       // Simulate success
