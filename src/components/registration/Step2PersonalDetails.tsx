@@ -30,13 +30,13 @@ export default function Step2PersonalDetails({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <FormControl fullWidth required error={!!errors?.country}>
-        <InputLabel>Country</InputLabel>
+        <InputLabel id="country-label">Country</InputLabel>
         <Controller
           name="country"
           control={control}
           rules={{ required: 'Country is required' }}
           render={({ field }) => (
-            <Select {...field} label="Country">
+            <Select {...field} labelId="country-label" label="Country">
               {countries.map((c) => (
                 <MenuItem key={c} value={c}>
                   {c}
@@ -48,13 +48,13 @@ export default function Step2PersonalDetails({
         {errors?.country && <FormHelperText>{errors.country.message as string}</FormHelperText>}
       </FormControl>
       <FormControl fullWidth required error={!!errors?.gender}>
-        <InputLabel>Gender</InputLabel>
+        <InputLabel id="gender-label">Gender</InputLabel>
         <Controller
           name="gender"
           control={control}
           rules={{ required: 'Gender is required' }}
           render={({ field }) => (
-            <Select {...field} label="Gender">
+            <Select {...field} labelId="gender-label" label="Gender">
               {genders.map((g) => (
                 <MenuItem key={g} value={g}>
                   {g}
