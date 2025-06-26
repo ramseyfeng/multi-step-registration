@@ -1,16 +1,14 @@
 import { type ChangeEvent, useState } from 'react'
-import { Box, Button, Stepper, Step, StepLabel, Typography, Avatar } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Step1BasicInfo from './Step1BasicInfo.tsx'
 import Step2PersonalDetails from './Step2PersonalDetails.tsx'
 import Step3AccountInfo from './Step3AccountInfo.tsx'
+import RegistrationConfirmation from './RegistrationConfirmation'
+import RegistrationStepper from './RegistrationStepper'
 import type { RegistrationFormValues } from './registrationTypes.ts'
-import {
-  COUNTRIES,
-  GENDERS,
-  REGISTRATION_STEPS,
-  REGISTRATION_STEPS_DATA,
-} from './registrationConstants'
+import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
+import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues
@@ -22,17 +20,7 @@ function RegistrationForm() {
     getValues,
     formState: { errors },
   } = useForm<RegistrationFormValues>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      dob: null,
-      country: '',
-      gender: '',
-      profilePic: null,
-      profilePicUrl: '',
-      email: '',
-      password: '',
-    },
+    defaultValues: REGISTRATION_DEFAULT_VALUES,
     mode: 'onTouched',
   })
   const [activeStep, setActiveStep] = useState(0)
@@ -69,23 +57,26 @@ function RegistrationForm() {
         bgcolor: 'white',
         color: 'black',
         p: 4,
-        borderRadius: 2,
-        boxShadow: 2,
+        borderRadius: 4,
+        boxShadow: 4,
+        mx: 'auto',
+        mt: 6,
       }}
     >
-      <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
-        {Object.values(REGISTRATION_STEPS).map((step) => (
-          <Step key={REGISTRATION_STEPS_DATA[step].label}>
-            <StepLabel>{REGISTRATION_STEPS_DATA[step].label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      <Typography variant="h4" align="center" fontWeight={700} sx={{ mb: 4, letterSpacing: 1 }}>
+        Registration
+      </Typography>
+      <RegistrationStepper activeStep={activeStep} />
       <Box
         sx={{
           flex: '1 1 auto',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
+          bgcolor: '#f9f9fb',
+          borderRadius: 2,
+          p: 3,
+          minHeight: 320,
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)} style={{ height: '100%' }}>
@@ -110,27 +101,7 @@ function RegistrationForm() {
             />
           )}
           {activeStep === REGISTRATION_STEPS.Confirmation && (
-            <Box>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Confirm your details:
-              </Typography>
-              <Box component="ul" sx={{ pl: 2, mb: 2 }}>
-                {Object.entries(getValues()).map(([k, v]) =>
-                  k === 'profilePicUrl' && v ? (
-                    <li key={k} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <strong>Profile Picture:</strong>
-                      <Avatar src={v as string} alt="Profile" sx={{ width: 32, height: 32 }} />
-                    </li>
-                  ) : (
-                    k !== 'profilePic' && (
-                      <li key={k}>
-                        <strong>{k}:</strong> {v instanceof Date ? v.toLocaleDateString() : v}
-                      </li>
-                    )
-                  )
-                )}
-              </Box>
-            </Box>
+            <RegistrationConfirmation values={getValues()} />
           )}
         </form>
       </Box>
@@ -145,13 +116,13 @@ function RegistrationForm() {
         }}
       >
         {activeStep > 0 && activeStep < REGISTRATION_STEPS.Confirmation && (
-          <Button variant="outlined" onClick={handleBack} sx={{ minWidth: 100 }}>
+          <Button variant="outlined" onClick={handleBack}>
             Back
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
         {activeStep < REGISTRATION_STEPS.Confirmation && (
-          <Button variant="contained" onClick={handleNext} sx={{ minWidth: 100 }}>
+          <Button variant="contained" onClick={handleNext}>
             Next
           </Button>
         )}
@@ -160,7 +131,6 @@ function RegistrationForm() {
             variant="contained"
             color="success"
             type="submit"
-            sx={{ minWidth: 100 }}
             onClick={handleSubmit(onSubmit)}
           >
             Submit

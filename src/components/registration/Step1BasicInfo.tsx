@@ -7,7 +7,7 @@ interface Step1BasicInfoProps {
   errors: FieldErrors<RegistrationFormValues>
 }
 
-export default function Step1BasicInfo({ control, errors }: Step1BasicInfoProps) {
+export default function Step1BasicInfo({ control, errors }: Readonly<Step1BasicInfoProps>) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Controller
