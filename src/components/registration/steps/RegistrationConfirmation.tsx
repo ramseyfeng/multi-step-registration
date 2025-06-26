@@ -6,6 +6,11 @@ interface RegistrationConfirmationProps {
   values: RegistrationFormValues
 }
 
+function formatKeyName(key: string) {
+  // In real applications, it could be a more sophisticated localization solution
+  return key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())
+}
+
 export default function RegistrationConfirmation({
   values,
 }: Readonly<RegistrationConfirmationProps>) {
@@ -46,7 +51,7 @@ export default function RegistrationConfirmation({
             return (
               <li key={k} className="flex items-center mb-2 justify-center flex-wrap">
                 <div className="w-40 min-w-[120px] text-right pr-2 font-semibold capitalize">
-                  {k}:
+                  {formatKeyName(k)}:
                 </div>
                 <div className="flex-1 min-w-[120px] text-left justify-center sm:justify-start break-words overflow-auto max-w-xs">
                   {v as string}
