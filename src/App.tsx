@@ -16,7 +16,9 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1 className="text-6xl font-bold mb-6 text-gray-800 dark:text-white">Vite + React + Tailwind</h1>
+      <h1 className="text-6xl font-bold mb-6 text-gray-800 dark:text-white">
+        Vite + React + Tailwind
+      </h1>
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         <button
           onClick={() => setCount((count) => count + 1)}
@@ -25,7 +27,8 @@ function App() {
           count is {count}
         </button>
         <p className="text-gray-700 dark:text-gray-300">
-          Edit <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">src/App.tsx</code> and save to test HMR
+          Edit <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">src/App.tsx</code> and
+          save to test HMR
         </p>
       </div>
       <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
