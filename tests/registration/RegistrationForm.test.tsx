@@ -46,4 +46,39 @@ describe('RegistrationForm', () => {
     expect(await screen.findByText(/Invalid email address/i)).toBeInTheDocument()
     expect(await screen.findByText(/at least 8 characters/i)).toBeInTheDocument()
   })
+  it('navigates forward and backward through steps using Next and Back buttons', async () => {
+    renderWithProvider(<RegistrationForm />)
+
+    // Step 1: Basic Info
+    expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument()
+    await userEvent.type(screen.getByLabelText(/First Name/i), 'Test')
+    await userEvent.type(screen.getByLabelText(/Last Name/i), 'User')
+    await userEvent.type(screen.getByLabelText(/Date of Birth/i), '2000-01-01')
+    await userEvent.click(screen.getByRole('button', { name: /next/i }))
+
+    // Step 2: Personal Details
+    expect(screen.getByLabelText(/Country/i)).toBeInTheDocument()
+    await userEvent.click(screen.getByLabelText(/Country/i))
+    await userEvent.click(await screen.findByRole('option', { name: 'United States' }))
+    await userEvent.click(screen.getByLabelText(/Gender/i))
+    await userEvent.click(await screen.findByRole('option', { name: 'Male' }))
+    await userEvent.click(screen.getByRole('button', { name: /next/i }))
+
+    // Step 3: Account Info
+    expect(screen.getByLabelText(/Email Address/i)).toBeInTheDocument()
+    await userEvent.type(screen.getByLabelText(/Email Address/i), 'test@example.com')
+    await userEvent.type(screen.getByLabelText(/Password/i), 'password123')
+
+    // Go back to Step 2
+    await userEvent.click(screen.getByRole('button', { name: /back/i }))
+    expect(screen.getByLabelText(/Country/i)).toBeInTheDocument()
+
+    // Go back to Step 1
+    await userEvent.click(screen.getByRole('button', { name: /back/i }))
+    expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument()
+
+    // Go forward again to Step 2
+    await userEvent.click(screen.getByRole('button', { name: /next/i }))
+    expect(screen.getByLabelText(/Country/i)).toBeInTheDocument()
+  })
 })
