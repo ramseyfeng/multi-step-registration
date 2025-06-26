@@ -3,7 +3,13 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import { ToastContext } from './ToastContext'
 
-export const ToastProvider = ({ children }: { children: ReactNode }) => {
+export const ToastProvider = ({
+  children,
+  autoHideDuration = 4000,
+}: {
+  children: ReactNode
+  autoHideDuration?: number
+}) => {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success')
@@ -32,7 +38,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       {children}
       <Snackbar
         open={open}
-        autoHideDuration={4000}
+        autoHideDuration={autoHideDuration}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >

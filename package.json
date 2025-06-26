@@ -13,16 +13,13 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "test:registration": "vitest tests/registration",
-    "test:common": "vitest tests/common"
+    "test:common": "vitest run tests/common"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.6",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
     "@mui/x-date-pickers": "^6.4.8",
-    "date-fns": "^2.30.0",
     "dayjs": "^1.11.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
