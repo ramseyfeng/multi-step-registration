@@ -9,9 +9,9 @@ import {
   Avatar,
   type SelectChangeEvent,
 } from '@mui/material'
-import Step1BasicInfo from './Step1BasicInfo'
-import Step2PersonalDetails from './Step2PersonalDetails'
-import Step3AccountInfo from './Step3AccountInfo'
+import Step1BasicInfo from './Step1BasicInfo.tsx'
+import Step2PersonalDetails from './Step2PersonalDetails.tsx'
+import Step3AccountInfo from './Step3AccountInfo.tsx'
 
 const steps = ['Basic Information', 'Personal Details', 'Account Setup', 'Confirmation']
 
