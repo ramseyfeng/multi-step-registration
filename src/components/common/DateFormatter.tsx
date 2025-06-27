@@ -1,15 +1,20 @@
 import React from 'react'
-import dayjs from 'dayjs'
+import { format as formatDate, isValid, parseISO } from 'date-fns'
 
 interface DateFormatterProps {
   value: number | string | Date
   format?: string
 }
 
-const DateFormatter: React.FC<DateFormatterProps> = ({ value, format = 'MM/DD/YYYY' }) => {
+const DateFormatter: React.FC<DateFormatterProps> = ({ value, format = 'MM/dd/yyyy' }) => {
   if (!value) return null
-  const date = dayjs(value)
-  return <span className="date-formatter">{date.isValid() ? date.format(format) : ''}</span>
+  let date: Date
+  if (typeof value === 'string') {
+    date = parseISO(value)
+  } else {
+    date = new Date(value)
+  }
+  return <span className="date-formatter">{isValid(date) ? formatDate(date, format) : ''}</span>
 }
 
 export default DateFormatter

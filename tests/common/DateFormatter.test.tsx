@@ -24,7 +24,7 @@ describe('DateFormatter', () => {
   })
 
   it('renders with custom format', () => {
-    render(<DateFormatter value="2025-06-24" format="YYYY/MM/DD" />)
+    render(<DateFormatter value="2025-06-24" format="yyyy/MM/dd" />)
     expect(screen.getByText('2025/06/24')).toBeInTheDocument()
   })
 
