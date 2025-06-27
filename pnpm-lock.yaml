@@ -8,12 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@emotion/react':
-        specifier: ^11.14.0
-        version: 11.14.0(@types/react@19.1.8)(react@19.1.0)
-      '@emotion/styled':
-        specifier: ^11.14.0
-        version: 11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0)
       '@fontsource/roboto':
         specifier: ^5.2.6
         version: 5.2.6
@@ -26,9 +20,6 @@ importers:
       '@mui/x-date-pickers':
         specifier: ^6.4.8
         version: 6.20.2(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@mui/material@6.4.12(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@mui/system@6.4.12(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(date-fns@2.30.0)(dayjs@1.11.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      date-fns:
-        specifier: ^2.30.0
-        version: 2.30.0
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -48,6 +39,12 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.3.0
         version: 19.8.1
+      '@emotion/react':
+        specifier: ^11.14.0
+        version: 11.14.0(@types/react@19.1.8)(react@19.1.0)
+      '@emotion/styled':
+        specifier: ^11.14.0
+        version: 11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0)
       '@eslint/js':
         specifier: ^9.25.0
         version: 9.29.0
@@ -75,6 +72,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.17
         version: 10.4.21(postcss@8.5.6)
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
       eslint:
         specifier: ^9.25.0
         version: 9.29.0(jiti@2.4.2)
