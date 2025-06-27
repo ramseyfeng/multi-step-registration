@@ -4,22 +4,25 @@ import userEvent from '@testing-library/user-event'
 export async function fillStep1BasicInfo({
   firstName,
   lastName,
-  dob,
+  dob, // expects 'MM/DD/YYYY' or 'MMDDYYYY'
 }: {
   firstName: string
   lastName: string
-  dob: string
+  dob: string // e.g., '01/01/2000' or '01012000'
 }) {
   expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument()
   await userEvent.clear(screen.getByLabelText(/First Name/i))
   await userEvent.type(screen.getByLabelText(/First Name/i), firstName)
   await userEvent.clear(screen.getByLabelText(/Last Name/i))
   await userEvent.type(screen.getByLabelText(/Last Name/i), lastName)
-  await userEvent.clear(screen.getByLabelText(/Date of Birth/i))
-  await userEvent.type(screen.getByLabelText(/Date of Birth/i), dob)
+  const dobInput = screen.getByLabelText(/Date of Birth/i)
+  await userEvent.click(dobInput)
+  // Type only digits if dob is in 'MMDDYYYY' format, else type as is
+  await userEvent.keyboard(dob)
+  expect(dobInput).toHaveValue(dob)
   await userEvent.click(screen.getByRole('button', { name: /next/i }))
+  expect(screen.queryByText(/Date of birth is required/i)).not.toBeInTheDocument()
 }
-
 export async function fillStep2PersonalDetails({
   country,
   gender,

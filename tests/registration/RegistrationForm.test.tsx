@@ -1,3 +1,4 @@
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -22,9 +23,23 @@ function renderWithProvider(ui: ReactElement) {
 }
 
 describe('RegistrationForm', () => {
+  it('should allow typing a date with the new accessible DOM structure', async () => {
+    render(
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker label="Date of Birth" />
+      </LocalizationProvider>
+    )
+
+    const datePickerInput = screen.getByLabelText(/Date of Birth/i)
+    await userEvent.click(datePickerInput) // Focus the input
+    await userEvent.keyboard('01012000') // Type the date digits
+
+    // Your assertions here
+    expect(datePickerInput).toHaveValue('01/01/2000')
+  })
   it('renders all steps and submits successfully', async () => {
     renderWithProvider(<RegistrationForm />)
-    await fillStep1BasicInfo({ firstName: 'John', lastName: 'Doe', dob: '2000-01-01' })
+    await fillStep1BasicInfo({ firstName: 'John', lastName: 'Doe', dob: '06/06/2025' })
     await fillStep2PersonalDetails({ country: 'United States', gender: 'Male' })
     await fillStep3AccountSetup({ email: 'john@example.com', password: 'password123' })
     await goToConfirmationStep()
@@ -40,7 +55,7 @@ describe('RegistrationForm', () => {
   })
   it('shows error for invalid email and short password', async () => {
     renderWithProvider(<RegistrationForm />)
-    await fillStep1BasicInfo({ firstName: 'Jane', lastName: 'Smith', dob: '1990-01-01' })
+    await fillStep1BasicInfo({ firstName: 'Jane', lastName: 'Smith', dob: '01/01/1990' })
     await fillStep2PersonalDetails({ country: 'United States', gender: 'Male' })
     await fillStep3AccountSetup({ email: 'bademail', password: '123' })
     expect(await screen.findByText(/Invalid email address/i)).toBeInTheDocument()
