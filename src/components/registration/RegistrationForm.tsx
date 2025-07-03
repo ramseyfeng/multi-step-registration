@@ -138,7 +138,7 @@ function RegistrationForm() {
           justifyContent: 'space-between',
         }}
       >
-        {activeStep > 0 && activeStep < REGISTRATION_STEPS.Confirmation && (
+        {activeStep > 0 && (
           <Button variant="outlined" onClick={handleBack}>
             Back
           </Button>
