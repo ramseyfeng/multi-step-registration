@@ -12,6 +12,9 @@ import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
 import { ToastContext } from '@/providers/toast'
 import RegistrationConfirmation from './steps/RegistrationConfirmation'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues
@@ -137,15 +140,16 @@ function RegistrationForm() {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
+        className="w-full"
       >
         {activeStep > 0 && (
-          <Button variant="outlined" onClick={handleBack}>
+          <Button variant="outlined" onClick={handleBack} startIcon={<ArrowBackIcon />}>
             Back
           </Button>
         )}
-        <Box sx={{ flex: 1 }} />
+        <Box className="flex-1" />
         {activeStep < REGISTRATION_STEPS.Confirmation && (
-          <Button variant="contained" onClick={handleNext}>
+          <Button variant="contained" onClick={handleNext} endIcon={<ArrowForwardIcon />}>
             Next
           </Button>
         )}
@@ -156,6 +160,7 @@ function RegistrationForm() {
             type="submit"
             onClick={handleSubmit(onSubmit)}
             disabled={submitting}
+            startIcon={<CheckCircleIcon />}
             loading={submitting}
           >
             Submit
