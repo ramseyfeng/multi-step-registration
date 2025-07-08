@@ -11,6 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircularProgress from '@mui/material/CircularProgress'
+import { useRegistrationSteps } from './useRegistrationSteps'
 
 // Lazy load step components
 const Step1BasicInfo = lazy(() => import('./steps/Step1BasicInfo'))
@@ -32,7 +33,8 @@ function RegistrationForm() {
     defaultValues: REGISTRATION_DEFAULT_VALUES,
     mode: 'onTouched',
   })
-  const [activeStep, setActiveStep] = useState(0)
+
+  const { activeStep, nextStep, prevStep } = useRegistrationSteps()
   const [submitting, setSubmitting] = useState(false)
   const [registrationSuccess, setRegistrationSuccess] = useState(false)
   const toast = useContext(ToastContext)
@@ -52,9 +54,10 @@ function RegistrationForm() {
     if (activeStep === REGISTRATION_STEPS.PersonalDetails) stepFields = ['country', 'gender']
     if (activeStep === REGISTRATION_STEPS.AccountSetup) stepFields = ['email', 'password']
     const valid = await trigger(stepFields)
-    if (valid) setActiveStep((prev) => prev + 1)
+    if (valid) nextStep()
   }
-  const handleBack = () => setActiveStep((prev) => prev - 1)
+
+  const handleBack = () => prevStep()
 
   const onSubmit = async (data: RegistrationFormValues) => {
     setSubmitting(true)
@@ -139,12 +142,7 @@ function RegistrationForm() {
               />
             )}
             {activeStep === REGISTRATION_STEPS.AccountSetup && (
-              <Step3AccountInfo
-                control={control}
-                errors={errors}
-                onBack={() => setActiveStep((prev) => prev - 1)}
-                onNext={handleSubmit(() => setActiveStep((prev) => prev + 1))}
-              />
+              <Step3AccountInfo control={control} errors={errors} />
             )}
             {activeStep === REGISTRATION_STEPS.Confirmation && (
               <RegistrationConfirmation values={getValues()} />

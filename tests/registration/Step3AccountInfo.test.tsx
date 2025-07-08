@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import Step3AccountInfo from '@/components/registration/steps/Step3AccountInfo'
 import { useForm } from 'react-hook-form'
 import type { RegistrationFormValues } from '@/components/registration/registrationTypes'
-import { vi } from 'vitest'
 
 function renderWithForm() {
   const Wrapper = () => {
@@ -19,11 +18,7 @@ function renderWithForm() {
         password: '',
       },
     })
-    const onBack = vi.fn()
-    const onNext = vi.fn()
-    return (
-      <Step3AccountInfo control={methods.control} errors={{}} onBack={onBack} onNext={onNext} />
-    )
+    return <Step3AccountInfo control={methods.control} errors={{}} />
   }
   render(<Wrapper />)
 }

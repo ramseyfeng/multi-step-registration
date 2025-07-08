@@ -10,7 +10,8 @@ export async function fillStep1BasicInfo({
   lastName: string
   dob: string // e.g., '01/01/2000' or '01012000'
 }) {
-  expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument()
+  // Wait for the lazy-loaded Step1BasicInfo component to render
+  await waitFor(() => expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument())
   await userEvent.clear(screen.getByLabelText(/First Name/i))
   await userEvent.type(screen.getByLabelText(/First Name/i), firstName)
   await userEvent.clear(screen.getByLabelText(/Last Name/i))

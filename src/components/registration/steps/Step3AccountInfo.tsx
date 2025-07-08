@@ -5,8 +5,6 @@ import type { RegistrationFormValues } from '../registrationTypes.ts'
 interface Step3AccountInfoProps {
   control: Control<RegistrationFormValues>
   errors: FieldErrors<RegistrationFormValues>
-  onBack: () => void
-  onNext: () => void
 }
 
 export default function Step3AccountInfo({ control, errors }: Readonly<Step3AccountInfoProps>) {
