@@ -1,20 +1,23 @@
-import { type ChangeEvent, useState, useContext } from 'react'
-import { Box, Button, Typography } from '@mui/material'
+import { lazy, Suspense, type ChangeEvent, useState, useContext } from 'react'
+import { Box, Button, Typography } from '@mui/material/'
 import { useForm } from 'react-hook-form'
-import Step1BasicInfo from './steps/Step1BasicInfo.tsx'
-import Step2PersonalDetails from './steps/Step2PersonalDetails.tsx'
-import Step3AccountInfo from './steps/Step3AccountInfo.tsx'
-import RegistrationComplete from './RegistrationComplete'
 import RegistrationStepper from './RegistrationStepper'
 import type { RegistrationFormValues } from './registrationTypes.ts'
 import { REGISTRATION_DEFAULT_VALUES } from './registrationTypes.ts'
 import { COUNTRIES, GENDERS, REGISTRATION_STEPS } from './registrationConstants'
 import { mockRegistrationService } from './registrationService'
 import { ToastContext } from '@/providers/toast'
-import RegistrationConfirmation from './steps/RegistrationConfirmation'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CircularProgress from '@mui/material/CircularProgress'
+
+// Lazy load step components
+const Step1BasicInfo = lazy(() => import('./steps/Step1BasicInfo'))
+const Step2PersonalDetails = lazy(() => import('./steps/Step2PersonalDetails'))
+const Step3AccountInfo = lazy(() => import('./steps/Step3AccountInfo'))
+const RegistrationConfirmation = lazy(() => import('./steps/RegistrationConfirmation'))
+const RegistrationComplete = lazy(() => import('./RegistrationComplete'))
 
 function RegistrationForm() {
   type FieldName = keyof RegistrationFormValues
@@ -72,7 +75,17 @@ function RegistrationForm() {
   }
 
   if (registrationSuccess) {
-    return <RegistrationComplete />
+    return (
+      <Suspense
+        fallback={
+          <div className="w-full flex justify-center py-8">
+            <CircularProgress color="primary" />
+          </div>
+        }
+      >
+        <RegistrationComplete />
+      </Suspense>
+    )
   }
 
   return (
@@ -106,29 +119,37 @@ function RegistrationForm() {
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)} style={{ height: '100%' }}>
-          {activeStep === REGISTRATION_STEPS.BasicInfo && (
-            <Step1BasicInfo control={control} errors={errors} />
-          )}
-          {activeStep === REGISTRATION_STEPS.PersonalDetails && (
-            <Step2PersonalDetails
-              control={control}
-              errors={errors}
-              countries={COUNTRIES}
-              genders={GENDERS}
-              onFileChange={handleFileChange}
-            />
-          )}
-          {activeStep === REGISTRATION_STEPS.AccountSetup && (
-            <Step3AccountInfo
-              control={control}
-              errors={errors}
-              onBack={() => setActiveStep((prev) => prev - 1)}
-              onNext={handleSubmit(() => setActiveStep((prev) => prev + 1))}
-            />
-          )}
-          {activeStep === REGISTRATION_STEPS.Confirmation && (
-            <RegistrationConfirmation values={getValues()} />
-          )}
+          <Suspense
+            fallback={
+              <div className="w-full flex justify-center py-8">
+                <CircularProgress color="primary" />
+              </div>
+            }
+          >
+            {activeStep === REGISTRATION_STEPS.BasicInfo && (
+              <Step1BasicInfo control={control} errors={errors} />
+            )}
+            {activeStep === REGISTRATION_STEPS.PersonalDetails && (
+              <Step2PersonalDetails
+                control={control}
+                errors={errors}
+                countries={COUNTRIES}
+                genders={GENDERS}
+                onFileChange={handleFileChange}
+              />
+            )}
+            {activeStep === REGISTRATION_STEPS.AccountSetup && (
+              <Step3AccountInfo
+                control={control}
+                errors={errors}
+                onBack={() => setActiveStep((prev) => prev - 1)}
+                onNext={handleSubmit(() => setActiveStep((prev) => prev + 1))}
+              />
+            )}
+            {activeStep === REGISTRATION_STEPS.Confirmation && (
+              <RegistrationConfirmation values={getValues()} />
+            )}
+          </Suspense>
         </form>
       </Box>
       <Box
